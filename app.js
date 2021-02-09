@@ -92,21 +92,6 @@ deleteKey.addEventListener('click', deleteDigit);
 toggleKey.addEventListener('click', toggleNumberSign);
 
 // FUNCTIONS
-
-// function add(a, b) {
-//     return a + b;
-// }
-// function substract(a, b) {
-//     return a - b;
-// }
-// function multiply(a, b) {
-//     return a * b;
-// }
-// function divide(a, b) {
-//     return a / b;
-// }
-
-
 function operate(a, b, sign) {
   switch (sign) {
     case '+':
