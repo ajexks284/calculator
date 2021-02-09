@@ -183,3 +183,42 @@ function tryRoundNumber(num) {
         return num;
     }
 }
+
+// Keyboard support
+// use click() to simmulate mouse click
+window.addEventListener('keydown', (e) => {
+    if (!isNaN(e.key) && e.key !== ' ') {
+        document.getElementById(`digit-${e.key}`).click();
+    }
+
+    const operations = {
+        '+': 'add',
+        '-': 'substract',
+        '*': 'multiply',
+        '/': 'divide'
+    }
+
+    if (Object.keys(operations).includes(e.key)) {
+        document.getElementById(`operator-${operations[e.key]}`).click();
+    }
+
+    if (e.key === '.') {
+        document.getElementById('dot').click();
+    }
+
+    if (e.key === '=' || e.key === 'Enter') {
+        document.getElementById('equal').click();
+    }
+
+    if (e.key === 'c' || e.key === 'C') {
+        document.getElementById('clear').click();
+    }
+
+    if (e.key === 'Backspace') {
+        document.getElementById('delete').click();
+    }
+
+    if (e.key === 'Control') {
+        document.getElementById('toggle').click();
+    }
+})
