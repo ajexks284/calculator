@@ -24,23 +24,19 @@ Array.from(numberKeys).forEach(numberKey => {
             display.innerText = '';
             clickedEqual = false;
         }
+
         checkForOperator();
-        if (e.target.innerText === '0') {
-            if (!calculator.firstName && !calculator.operator ||
-                calculator.operator && !calculator.secondNum) {
-                // no 0 first on first number or after an operator
-                if (display.innerText == '') {
-                    deleteDigit();
-                } else {
-                    updateDisplay(e);
-                }
-            } else {
-                updateDisplay(e);
-            }
+
+        if (calculator.firstNum === 0 && !calculator.operator) {
+            calculator.firstNum = Number(e.target.innerText);
+            display.innerText = e.target.innerText;
+        } else if (calculator.firstNum && calculator.operator && calculator.secondNum === 0) {
+            calculator.secondNum = Number(e.target.innerText);
+            display.innerText = e.target.innerText;
         } else {
             updateDisplay(e);
+            storeNumber();
         }
-        storeNumber();
     })
 });
 
@@ -53,7 +49,7 @@ Array.from(operatorKeys).forEach(operatorKey => {
             calculator.operator = e.target.innerText;
             clickedEqual = false;
             executed = false;
-        } else if (!calculator.firstNum) {
+        } else if (calculator.firstNum == null) {
             return;
         } else {
             storeOperator(e);
@@ -63,7 +59,7 @@ Array.from(operatorKeys).forEach(operatorKey => {
 });
 
 equalKey.addEventListener('click', () => {
-    if (!calculator.firstNum || !calculator.secondNum || !calculator.operator) {
+    if (calculator.firstNum == null || calculator.secondNum == null || calculator.operator == null) {
         return;
     } else {
         display.innerText = tryRoundNumber(operate(calculator.firstNum, calculator.secondNum, calculator.operator));
@@ -148,7 +144,7 @@ function toggleNumberSign() {
                 display.innerText = calculator.firstNum;
             }
         } else if (calculator.operator && calculator.secondNum != null) {
-            calculator.secondNum = -calculator.secondNum;
+            calculator.secondNum = -calculator;
             if (calculator.secondNum === 0) {
                 display.innerText = '0';
             } else {
@@ -183,6 +179,19 @@ function tryRoundNumber(num) {
         return num;
     }
 }
+
+// Prevent division by 0
+document.getElementById('digit-0').addEventListener('click', () => {
+    if (calculator.operator === '/') {
+        display.innerText = 'ERROR';
+        setTimeout(function() {
+            clearCalculator();
+            display.innerText = '';
+            executed = false;
+            clickedEqual = false;
+        }, 500);
+    }
+})
 
 // Keyboard support
 // use click() to simmulate mouse click
