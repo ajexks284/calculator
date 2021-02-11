@@ -117,14 +117,24 @@ function storeNumber() {
 function deleteDigit() {
     if (display.innerText) {
         if (!calculator.operator) {
-            calculator.firstNum = Number(calculator.firstNum.toString().slice(0, -1));
+            if (calculator.firstNum < 0 && calculator.firstNum.toString().length === 2) {
+                calculator.firstNum = 0;
+            } else {
+                calculator.firstNum = Number(calculator.firstNum.toString().slice(0, -1));
+            }
+
             if (calculator.firstNum === 0) {
                 display.innerText = '';
             } else {
                 display.innerText = calculator.firstNum;
             }
         } else if (calculator.operator && calculator.secondNum != null) {
-            calculator.secondNum = Number(calculator.secondNum.toString().slice(0, -1));
+            if (calculator.secondNum < 0 && calculator.secondNum.toString().length === 2) {
+                calculator.secondNum = 0;
+            } else {
+                calculator.secondNum = Number(calculator.secondNum.toString().slice(0, -1));
+            }
+            
             if (calculator.secondNum === 0) {
                 display.innerText = '';
             } else {
@@ -144,7 +154,7 @@ function toggleNumberSign() {
                 display.innerText = calculator.firstNum;
             }
         } else if (calculator.operator && calculator.secondNum != null) {
-            calculator.secondNum = -calculator;
+            calculator.secondNum = -calculator.secondNum;
             if (calculator.secondNum === 0) {
                 display.innerText = '0';
             } else {
