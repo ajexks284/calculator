@@ -27,10 +27,10 @@ Array.from(numberKeys).forEach(numberKey => {
 
         checkForOperator();
 
-        if (calculator.firstNum === 0 && !calculator.operator) {
+        if (calculator.firstNum === 0 && !display.innerText.includes('.') && !calculator.operator) {
             calculator.firstNum = Number(e.target.innerText);
             display.innerText = e.target.innerText;
-        } else if (calculator.firstNum && calculator.operator && calculator.secondNum === 0) {
+        } else if (calculator.firstNum && calculator.operator && calculator.secondNum === 0 && !display.innerText.includes('.')) {
             calculator.secondNum = Number(e.target.innerText);
             display.innerText = e.target.innerText;
         } else {
@@ -80,6 +80,12 @@ clearKey.addEventListener('click', () => {
 dotKey.addEventListener('click', () => {
     if (!display.innerText.includes('.')) {
         display.innerText += '.';
+        clickedEqual = false;
+    }
+
+    if (calculator.operator && !calculator.secondNum) {
+        checkForOperator();
+        display.innerText += '0.';
         clickedEqual = false;
     }
 });
@@ -192,7 +198,7 @@ function tryRoundNumber(num) {
 
 // Prevent division by 0
 document.getElementById('digit-0').addEventListener('click', () => {
-    if (calculator.operator === '/') {
+    if (calculator.operator === '/' && !calculator.secondNum) {
         display.innerText = 'ERROR';
         setTimeout(function() {
             clearCalculator();
